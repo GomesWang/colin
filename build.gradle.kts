@@ -1,6 +1,7 @@
 val ktor_version: String by project
 val kotlin_version: String by project
 val logback_version: String by project
+val jwt_version: String by project
 
 plugins {
     kotlin("jvm") version "1.9.20"
@@ -30,9 +31,22 @@ repositories {
 dependencies {
     implementation("io.ktor:ktor-server-core-jvm")
     implementation("io.ktor:ktor-server-netty-jvm")
+    implementation("io.ktor:ktor-server-content-negotiation-jvm:$ktor_version")
+    implementation("io.ktor:ktor-serialization-jackson:$ktor_version")
     implementation("ch.qos.logback:logback-classic:$logback_version")
     implementation("io.ktor:ktor-server-config-yaml:2.3.5")
     implementation("org.ktorm:ktorm-core:3.6.0")
     testImplementation("io.ktor:ktor-server-tests-jvm")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+
+    implementation("io.ktor:ktor-server-call-logging:$ktor_version")
+    // 用于解决客户端不支持put或delete请求，X-Http-Method-Override: DELETE会将请求自动转发
+    implementation("io.ktor:ktor-server-method-override:$ktor_version")
+    implementation("io.ktor:ktor-server-status-pages:$ktor_version")
+
+
+    implementation("io.jsonwebtoken:jjwt-api:$jwt_version")
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:$jwt_version")
+    runtimeOnly("io.jsonwebtoken:jjwt-jackson:$jwt_version")
+
 }
